@@ -1,54 +1,87 @@
-package api_teste.database.services; //Importa o caminho onde a classe está do código do projeto
+//Declara o caminho onde a classe está dentro do código. 
+package api_teste.database.services;
 
-import org.springframework.stereotype.Service;
-import java.util.Optional;                                       //Importa Optional, usando para tratar calores que podem não estar presentes (evitar NullPointerException).
+
+//Importa Optional, usado para tratar valores que podem não estar presentes (evita NullExceptionPointer)
+import java.util.Optional;
+
+
+//Importa a anotação do Spring para a injeção automática de dependencias
 import org.springframework.beans.factory.annotation.Autowired;
-import org.springframework.transaction.annotation.Transactional; //Importa a anotação para gerenciar transaçãoes no Bd (garante atomicidade na oparação de banco de dados).
+//Importa a anotação que define essa classe como um componente de serviço gerenciado pelo Spring
+import org.springframework.stereotype.Service;
+//Importa a anotação para greenciar transações no banco de dados(garante atomicidade na operação)
+import org.springframework.transaction.annotation.Transactional;
+
+//Importa o models.Task
+import api_teste.database.models.Task;
+//Importa a interface do reppositório responsável pelas operações no banco de dados
+import api_teste.database.repositories.TaskRepository;
+//Importa a interface do repositório responsável pelas operações no banco de dados
+import api_teste.database.repositories.UserRepository;
 import api_teste.database.models.User;
-import api_teste.database.models.Task;                           //Importa o models .Task 
-import api_teste.database.repositories.TaskRepository;           //Importa a interface do repositório responsável pelas operações no banco de dados relacionadas a entidade Task.
-import api_teste.database.repositories.UserRepository;           //importa a interface do repositório responsável pelas operações no banco de dados no banco de dados
 
-//Anotaçõa que indica no Spring que essa classe contem as regras de negócios da entidade User
+
+//Anotação que indica no Spring que essa classe contém as regras de negócios da entidade user
 @Service
-public class UserService {
+public class UserService{
 
-    @Autowired
+    @Autowired 
     private UserRepository userRepository;
 
-    @Autowired
+    @Autowired 
     private TaskRepository taskRepository;
 
-    public User findById(long Id) {
+    public User findById(Long Id){
 
         Optional<User> user = this.userRepository.findById(Id);
 
-        return user.orElseThrow(() -> new RuntimeException(
-                "User não encontrado! ID:" + Id + ",Tipo:" + User.class.getName()));
+        return user.orElseThrow(()-> new RuntimeException(
+            "Usuario não encontrado!" + Id + ", Tipo:" + User.class.getName()
+        ));
     }
 
-    @Transactional
-    public User create(User obj) {
+    @Transactional 
+    public User create(User obj){
 
-        obj.setId(null);
+        {
+            obj.setId(null);
+            obj = this.userRepository.save(obj);
+    
+            // Salva a lista de tarefas associadas ao usuário, se existirem
+            if (obj.getTasks() != null && !obj.getTasks().isEmpty()) {
+                this.taskRepository.saveAll(obj.getTasks());
+            }
 
-        obj = this.userRepository.save(obj);
-
-        this.taskRepository.saveAll(obj.getTasks());
+//        obj.setId(null);
+//      obj = this.userRepository.save(obj);
+//    this.taskRepository.saveAll(obj.getClass());
 
         return obj;
-
     }
+}
 
-    @Transactional
-    public User update(User obj) {
+    @Transactional 
 
-        User newObj = this.findById(obj.getId());
-        newObj.setName(obj.getName());
-        newObj.setEmail(obj.getEmail());
+    public User update(User obj){
+
+        User newObj = findById(obj.getId());
+
+        newObj.setPassword(obj.getPassword());
 
         return this.userRepository.save(newObj);
 
     }
 
+    public void delete(Long Id){
+
+        findById(Id);
+
+        try{
+
+            this.userRepository.deleteById(Id);            
+        } catch (Exception e){
+            throw new RuntimeException("Não é possível exibir pois há entidade relacionadas");
+        }  
+    } 
 }
