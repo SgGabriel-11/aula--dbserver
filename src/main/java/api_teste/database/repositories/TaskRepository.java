@@ -19,20 +19,25 @@ public interface TaskRepository extends JpaRepository<Task, Long> {
     List<Task> findByUser_Id(Long id);
 
     /*
-    // =========================================================================
-    // Opção 2: Consulta JPQL (Java Persistence Query Language)
-    // Utiliza a anotação @Query referenciando a ENTIDADE (Task) e o objeto (user.id).
-    // =========================================================================
-    @Query(value = "SELECT t FROM Task t WHERE t.user.id = :id")
-    List<Task> findByUser_IdJPQL(@Param("id") Long id);
-    */
+     * // =========================================================================
+     * // Opção 2: Consulta JPQL (Java Persistence Query Language)
+     * // Utiliza a anotação @Query referenciando a ENTIDADE (Task) e o objeto
+     * (user.id).
+     * // =========================================================================
+     * 
+     * @Query(value = "SELECT t FROM Task t WHERE t.user.id = :id")
+     * List<Task> findByUser_IdJPQL(@Param("id") Long id);
+     */
 
     /*
-    // =========================================================================
-    // Opção 3: Consulta SQL Nativa (Native Query)
-    // Escreve SQL puro diretamente para o banco MySQL (usa a TABELA task e a COLUNA user_id).
-    // =========================================================================
-    @Query(value = "SELECT * FROM task t WHERE t.user_id = :id", nativeQuery = true)
-    List<Task> findByUser_IdSQL(@Param("id") Long id);
-    */
+     * // =========================================================================
+     * // Opção 3: Consulta SQL Nativa (Native Query)
+     * // Escreve SQL puro diretamente para o banco MySQL (usa a TABELA task e a
+     * COLUNA user_id).
+     * // =========================================================================
+     * 
+     * @Query(value = "SELECT * FROM task t WHERE t.user_id = :id", nativeQuery =
+     * true)
+     * List<Task> findByUser_IdSQL(@Param("id") Long id);
+     */
 }
