@@ -42,5 +42,19 @@ public class UserController {
 
     }
 
+    @PutMapping("/{id}")//mapeia requisições HTTP PUT na rota base "/user/{id}" (atualizaçao do usuario)
+    public ResponseEntity<Void> update(@Validated(UpdateUser.class)@RequestBody User obj, @PathVariable Long id){ //Método que recebe um objeto User no corpo da requisição, validado com a anotação @Validated e o id do usuário como parâmetro de caminho
+        obj.setId(id); //Define o id do objeto User com o valor do parâmetro de caminho
+        this.userService.update(obj); //Chama o método update do UserService para atualizar o usuário no banco de dados
+        return ResponseEntity.noContent().build(); //Retorna uma resposta HTTP 204 No Content (sem conteúdo no corpo da resposta)
+    }
+
+    @DeleteMapping("/{id}")//mapeia requisições HTTP DELETE na rota base "/user/{id}" (exclusão do usuario)
+    public ResponseEntity<Void> delete(@PathVariable Long id){ //Método que recebe o id do usuário como parâmetro de caminho
+        this.userService.delete(id); //Chama o método delete do UserService para excluir o usuário no banco de dados
+        return ResponseEntity.noContent().build(); //Retorna uma resposta HTTP 204 No Content (sem conteúdo no corpo da resposta)
+    }
+
+
 
 }
