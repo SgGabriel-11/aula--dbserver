@@ -49,7 +49,7 @@ public class TaskController {
 
     }
 
-    @PostMapping("/{id}")
+    @PutMapping("/{id}")
     public ResponseEntity<Void> update(@Valid @RequestBody Task obj, @PathVariable Long id) {
         obj.setId(id);
         this.taskService.update(obj);
