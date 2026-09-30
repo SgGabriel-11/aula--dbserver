@@ -1,47 +1,53 @@
-<!-- Declaração do padrão HTML5 -->
+<!-- Diz ao navegador que este é um documento HTML5 -->
 <!DOCTYPE html>
 
-<!-- Idioma principal do documento: Português do Brasil -->
-<html lang="pt-br">
+<!-- Raiz do documento; lang="pt-BR" indica que o conteúdo está em português do Brasil -->
+<html lang="pt-BR">
 
-<!-- Cabeçalho: Metadados, título e recursos externos -->
 <head>
-    <!-- Codificação de caracteres UTF-8 -->
+    <!-- Define a codificação de caracteres (acentos, ç, etc. funcionam certinho) -->
     <meta charset="UTF-8">
 
-    <!-- Configuração de viewport para responsividade em dispositivos móveis -->
+    <!-- Faz a página se adaptar a telas de celular (responsividade) -->
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
 
-    <!-- Título da página exibido na aba do navegador -->
+    <!-- Título que aparece na aba do navegador -->
     <title>Tarefas App</title>
 
-    <!-- Estilos CSS do Bootstrap (CDN) -->
+    <!-- Importa o CSS do Bootstrap 5 via CDN (deixa a página bonita sem você escrever CSS) -->
     <link href="https://cdn.jsdelivr.net/npm/bootstrap@5.2.0/dist/css/bootstrap.min.css" rel="stylesheet">
-<!-- Fim do cabeçalho -->
 </head>
 
-<!-- Corpo do documento: Conteúdo visível da aplicação -->
 <body>
 
-    <!-- Contêiner centralizado para o indicador de carregamento -->
+    <!-- Container que centraliza o conteúdo na horizontal (d-flex + justify-content-center) -->
     <div class="d-flex justify-content-center">
-        <!-- Spinner de carregamento (exibido/ocultado via JS pelo ID "loading") -->
+
+        <!-- Spinner de "carregando" do Bootstrap. O id="loading" permite que o
+             JavaScript encontre e esconda ele quando os dados chegarem -->
         <div class="spinner-border" role="status" id="loading">
+            <!-- Texto invisível na tela, só para leitores de tela (acessibilidade) -->
+            <span class="visually-hidden">Carregando...</span>
         </div>
+
     </div>
 
-    <!-- Título principal da página -->
+    <!-- Título da página: "h1" deixa o texto grande e "text-center" centraliza -->
     <p class="h1 text-center">Tarefas de um usuário</p>
 
-    <!-- Tabela estilizada para renderização das tarefas via JS (ID "tasks") -->
+    <!-- Tabela vazia; o JavaScript vai preencher com as tarefas
+         (o id="tasks" é como o JS vai achar essa tabela) -->
     <table class="table table-hover" id="tasks">
+
     </table>
 
-    <!-- Scripts: JS do Bootstrap (componentes interativos) e script da aplicação -->
+    <!-- JavaScript do Bootstrap (necessário para componentes interativos) -->
     <script src="https://cdn.jsdelivr.net/npm/bootstrap@5.2.0/dist/js/bootstrap.bundle.min.js"></script>
+
+    <!-- Seu próprio JavaScript, que busca as tarefas e monta a tabela.
+         Fica no final do body para rodar depois que o HTML já carregou -->
     <script src="script.js"></script>
-<!-- Fim do corpo do documento -->
+
 </body>
 
-<!-- Fim do documento HTML -->
 </html>
